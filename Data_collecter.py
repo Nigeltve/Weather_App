@@ -3,7 +3,8 @@ import json
 from datetime import timedelta
 from urllib.request import urlopen
 
-def c
+def checker():
+    pass
 
 def weather_history(date_go_back = '2009-01-01', postcode_sel = 'EC1A 1AA', API_key =  'def583708ca749ef8cc210541172408',):
     now = pd.datetime.today()                   # gets a date for the current day and converst it
