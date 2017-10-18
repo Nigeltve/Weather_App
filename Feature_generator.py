@@ -3,7 +3,7 @@ import numpy as np
 import pickle
 from Data_collecter import weather_history
 
-def feature_gen(date = '2016-09-01'):
+def feature_gen(date, save =True):
     df_weather = weather_history(date_go_back= date)
 
 
@@ -40,8 +40,8 @@ def feature_gen(date = '2016-09-01'):
 
             col_name = f + '_sum_diff_' + str(diff[0]) + '_' + str(diff[1])
             df_weather[col_name] = df_weather[f + '_sum' + str(diff[0])] - df_weather[f + '_sum' + str(diff[1])]
-
-    file_name = 'Data//df_weather.p'
-    pickled = open(file_name, 'wb')
-    pickle.dump(df_weather,pickled)
-    pickled.close()
+    if save:
+        file_name = 'Data//df_weather.p'
+        pickled = open(file_name, 'wb')
+        pickle.dump(df_weather,pickled)
+        pickled.close()

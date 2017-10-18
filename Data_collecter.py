@@ -3,10 +3,7 @@ import json
 from datetime import timedelta
 from urllib.request import urlopen
 
-def checker():
-    pass
-
-def weather_history(date_go_back = '2009-01-01', postcode_sel = 'EC1A 1AA', API_key =  'def583708ca749ef8cc210541172408',):
+def weather_history(date_go_back , postcode_sel = 'EC1A 1AA', API_key =  'def583708ca749ef8cc210541172408',):
     now = pd.datetime.today()                   # gets a date for the current day and converst it
     now = now.strftime('%Y-%m-%d')
     now = str(now)
@@ -18,6 +15,7 @@ def weather_history(date_go_back = '2009-01-01', postcode_sel = 'EC1A 1AA', API_
         date_list.append(str(head_date))
 
     date_list.append(now)
+
     print(date_list)
 
     post_code = postcode_sel
