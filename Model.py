@@ -29,6 +29,11 @@ print('current time {}\ndefault time back {}\n'.format(now, standard_time_back))
 
 
 def checking_weather_data():
+    """
+    checkes weather the Data needed is present and if it needs up dating or not
+
+    :return back the Dataframe and an update flag
+    """
     if weather_data_path.is_file():
         print('weather Data is present')
         print('checking if up to date')
@@ -146,14 +151,30 @@ def checking_regression(passed_flag, passed_DataFrame):
         pickle_reg.close()
 
 
-def graphing(reg, train_X,train_Y, test_X, test_Y):
+def eval_and_graphing(reg, train_X,train_Y, test_X, test_Y):
+    test_Y['pred'] = reg.predict(test_X)
+    print(test_Y.head(100))
 
+    abs_erre = np.round(
+        ((test_Y.temperature - test_Y.pred).abs().sum() / (test_Y.temperature).abs().sum()) * 100, 2)
+    print('Absolute Error:', abs_erre)
+
+    r2_error = np.round(r2_score(test_Y.temperature, test_Y.pred) * 100, 2)
+    print('R2 error:', r2_error)
+
+    date_list = test_Y.Date.unique().tolist()
+    date = date_list[-1]
+    plt.plot(test_Y[test_Y.Date == date].time, test_Y[test_Y.Date == date].temperature)
+    plt.plot(test_Y[test_Y.Date == date].time, test_Y[test_Y.Date == date].pred)
+    plt.show()
 
 if __name__ == '__main__':
     def main():
         df_weather, needs_updating_flag = checking_weather_data()
 
-        checking_regression(needs_updating_flag,df_weather)
+        reg, train_X, train_Y, test_X, test_Y = checking_regression(needs_updating_flag,df_weather)
+
+        eval_and_graphing(reg, train_X, train_Y, test_X, test_Y )
     main()
 
 
